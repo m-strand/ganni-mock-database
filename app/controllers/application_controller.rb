@@ -3,17 +3,27 @@ class ApplicationController < Sinatra::Base
 
   
   get "/items/:category" do
-    items=Item.all
-    items.to_json
-  end
+    if category!=null AND color!=null AND size !=null
+    items=Item.where("category = ? AND color = ? AND size = ?")
 
-  get "/items/:color" do 
-    items=Item.all
-    items.to_json
-  end
+    elsif size=null AND category!=null AND color!=null
+      items=Item.where("category = ? AND color=?")
 
-  get "/items/:size" do
-    items=Item.all
+    elsif size!=null AND category=null AND color!=null
+      items=Item.where("color = ? AND size = ?")
+
+    elsif size!=null AND category!=null AND color=null
+      items=Item.where("category = ? AND size = ?")
+
+    elsif size=null AND category!=null AND color=null
+      items=Item.where("category = ?")
+
+    elsif size!=null AND category=null AND color=null
+      items=Item.where("size = ?")
+
+    elsif size=null AND category=null AND color!=null
+      items=Item.where("color = ?")
+    end
     items.to_json
   end
 
