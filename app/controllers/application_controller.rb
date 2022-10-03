@@ -2,7 +2,7 @@ class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
 
   
-  get "/items/:category" do
+  get "/items/:category/:color/:size" do
     if category!=null AND color!=null AND size !=null
     items=Item.where("category = ? AND color = ? AND size = ?")
 
@@ -32,9 +32,9 @@ class ApplicationController < Sinatra::Base
     shopCards.to_json
   end
 
-  get "/users/" do
-    users=User.all
-    users.to_json
+  get "/users/:email/:password" do
+    user=User.where("email=? AND password=?")
+    user.to_json
   end
 
   post "/users" do
